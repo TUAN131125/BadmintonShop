@@ -1,0 +1,90 @@
+﻿<nav class="store-navbar">
+    <div class="d-flex align-items-center justify-content-between w-100">
+
+        <a href="/" class="text-decoration-none">
+            <div class="brand-title">
+                BADMINTON SHOP
+            </div>
+        </a>
+
+        <ul class="nav main-menu d-none d-lg-flex">
+            <li class="nav-item">
+                <a class="nav-link" href="/">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Product" asp-action="Index">PRODUCTS</a>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Order" asp-action="Index">TRACKING</a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="News" asp-action="Index">NEWS</a>
+            </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="position-relative d-none d-xl-block" style="width: 100%; max-width: 450px;">
+
+                <form method="get" action="/Product/Index" class="store-search">
+                    <i class="bi bi-search"></i>
+
+                    <input type="search"
+                           id="searchInput"
+                           name="q"
+                           placeholder="Search product, brand, SKU..."
+                           autocomplete="off"
+                           aria-label="Search"
+                           value="@ViewBag.CurrentSearch" /> <div id="searchSpinner" class="spinner-border spinner-border-sm text-primary me-2 d-none" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+
+                    <button type="submit">Search</button>
+                </form>
+
+                <div id="searchSuggestions" class="search-suggestions-box"></div>
+            </div>
+
+            <div class="action-icons d-flex align-items-center gap-2 position-relative">
+
+                <a class="icon-btn" href="/wishlist" title="Wishlist">
+                    <i class="bi bi-heart"></i>
+                </a>
+
+                <div class="dropdown">
+                    <a class="icon-btn" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                        <i class="bi bi-person"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-3" style="border-radius: 12px;">
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="dropdown-header fw-bold text-primary">Hi, @User.Identity.Name</li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">My Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                        }
+                    </ul>
+                </div>
+
+                <div id="cartToggle" class="icon-btn position-relative" style="cursor:pointer;">
+                    <i class="bi bi-bag"></i>
+                    <span id="cartCount" class="badge-count">
+                        @(CartSessionHelper.GetCart(Context).Sum(x => x.Quantity))
+                    </span>
+                </div>
+
+                <div id="miniCart" class="mini-cart d-none position-absolute">
+                    @await Html.PartialAsync("_MiniCart", CartSessionHelper.GetCart(Context))
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

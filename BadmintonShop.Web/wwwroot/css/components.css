@@ -1,0 +1,283 @@
+﻿/* ================= BUTTONS ================= */
+.btn-primary-store {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+    .btn-primary-store:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(253, 126, 20, 0.3);
+        color: white;
+    }
+
+.btn-outline-store {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+    .btn-outline-store:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(253, 126, 20, 0.2);
+    }
+
+/* ================= MINI CART ================= */
+.mini-cart {
+    width: 340px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    right: 0;
+    top: 60px;
+    padding: 1.5rem;
+    z-index: 1050;
+    border: 1px solid var(--border-light);
+    animation: fadeIn 0.2s ease;
+}
+
+.mini-cart-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+    /* Scrollbar đẹp cho MiniCart */
+    .mini-cart-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .mini-cart-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .mini-cart-body::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+.mini-item {
+    display: flex;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border-light);
+}
+
+.mini-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+}
+
+.mini-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    color: var(--text-main);
+}
+
+.mini-meta {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.mini-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem 0;
+}
+
+/* ================= CHATBOT ================= */
+.chatbot-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    box-shadow: var(--shadow-md);
+    z-index: 9999;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .chatbot-btn:hover {
+        transform: scale(1.1) rotate(5deg);
+        background: var(--primary-hover);
+        box-shadow: 0 10px 25px rgba(253, 126, 20, 0.4);
+    }
+
+
+
+/* ================= SEARCH SUGGESTIONS (LIVE SEARCH) ================= */
+/* Khung bao ngoài của danh sách gợi ý */
+.search-suggestions-box {
+    position: absolute;
+    top: 100%; /* Nằm ngay dưới ô input */
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: var(--radius-md); /* Bo góc 12px */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15); /* Đổ bóng giống Mini Cart */
+    margin-top: 10px; /* Cách ô tìm kiếm một chút */
+    z-index: 1100; /* Cao hơn Navbar */
+    border: 1px solid var(--border-light);
+    overflow: hidden; /* Để bo góc ảnh không bị lòi ra */
+    display: none; /* Mặc định ẩn */
+}
+
+    /* Hiệu ứng hiển thị (dùng JS toggle class này) */
+    .search-suggestions-box.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+    }
+
+/* Từng dòng sản phẩm gợi ý */
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px dashed var(--border-light);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+    .suggestion-item:last-child {
+        border-bottom: none;
+    }
+
+    .suggestion-item:hover {
+        background-color: #f8f9fa; /* Màu nền khi di chuột */
+    }
+
+/* Ảnh nhỏ trong gợi ý */
+.suggestion-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+    margin-right: 12px;
+}
+
+/* Thông tin chữ */
+.suggestion-info {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.suggestion-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Tự cắt chữ nếu quá dài... */
+    display: block;
+}
+
+.suggestion-price {
+    font-size: 0.8rem;
+    color: var(--primary); /* Màu cam chủ đạo */
+    font-weight: 700;
+}
+
+/* Dòng "Xem tất cả kết quả" ở cuối */
+.suggestion-view-all {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+    .suggestion-view-all:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+/* ================= CATEGORY CARDS ================= */
+.category-card {
+    background: var(--bg-surface); /* Nền trắng */
+    border-radius: var(--radius-md); /* Bo góc 12px */
+    border: 1px solid var(--border-light); /* Viền mỏng mặc định */
+    box-shadow: var(--shadow-sm); /* Đổ bóng nhẹ */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Chuyển động mượt */
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Hiệu ứng thanh màu cam trang trí bên trái (Optional) */
+    .category-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        height: 0%; /* Mặc định ẩn */
+        background: var(--primary);
+        transition: height 0.3s ease;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    /* --- TRẠNG THÁI HOVER (Khi di chuột vào) --- */
+    .category-card:hover {
+        transform: translateY(-5px); /* Bay lên 5px */
+        box-shadow: var(--shadow-hover); /* Bóng phát sáng màu cam (lấy từ variables.css) */
+        border-color: var(--primary); /* Viền chuyển sang màu cam */
+    }
+
+        .category-card:hover::before {
+            height: 60%; /* Thanh cam chạy lên */
+        }
+
+    /* --- TYPOGRAPHY --- */
+    .category-card h5 {
+        font-size: 1.1rem;
+        color: var(--text-main);
+        transition: color 0.3s;
+        z-index: 1; /* Nằm trên các hiệu ứng nền */
+    }
+
+    .category-card:hover h5 {
+        color: var(--primary); /* Chữ đổi màu cam */
+    }
+
+/* --- ICON (Dự phòng cho tương lai) --- */
+.category-icon {
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+    transition: transform 0.3s;
+    filter: grayscale(100%) opacity(0.7); /* Mặc định đen trắng mờ */
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1) rotate(-5deg); /* Lắc nhẹ icon */
+    filter: grayscale(0%) opacity(1); /* Lên màu rực rỡ */
+}

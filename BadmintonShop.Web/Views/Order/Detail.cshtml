@@ -1,0 +1,154 @@
+﻿@using BadmintonShop.Core.Enums
+@model BadmintonShop.Web.ViewModels.Order.OrderDetailVM
+
+@{
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+    ViewData["Title"] = "Order Detail #" + Model.Id;
+}
+
+<div class="container py-5">
+    @* --- HEADER: Tiêu đề & Nút quay lại --- *@
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">Order #@Model.Id</h4>
+            <p class="text-muted mb-0">Placed on: @Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to History
+        </a>
+    </div>
+
+    <div class="row">
+        @* --- CỘT TRÁI: DANH SÁCH SẢN PHẨM --- *@
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Items</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0 align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-3">Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-end pe-3">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td class="ps-3">
+                                            <span class="fw-bold text-dark">@item.ProductName</span> <br />
+                                            <small class="text-muted">SKU: @item.SKU</small>
+                                        </td>
+                                        <td class="text-center">x @item.Quantity</td>
+                                        <td class="text-end pe-3">@item.UnitPrice.ToString("N0") ₫</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="bg-light">
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold pt-3">Shipping Fee:</td>
+                                    <td class="text-end pt-3 pe-3">@Model.ShippingFee.ToString("N0") ₫</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold text-uppercase fs-5">Grand Total:</td>
+                                    <td class="text-end fw-bold text-danger fs-5 pe-3">@Model.TotalAmount.ToString("N0") ₫</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* --- CỘT PHẢI: THÔNG TIN GIAO HÀNG & THANH TOÁN --- *@
+        <div class="col-lg-4">
+
+            @* 1. Thông tin giao hàng *@
+            <div class="card shadow-sm mb-3 border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Shipping Address</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>Receiver:</strong> @Model.CustomerName</p>
+                    <p class="mb-2"><strong>Phone:</strong> @Model.Phone</p>
+                    <p class="mb-2"><strong>Email:</strong> @Model.Email</p>
+                    <hr />
+                    <p class="mb-0">
+                        <strong>Address:</strong><br />
+                        @Model.FullAddress
+                    </p>
+                </div>
+            </div>
+
+            @* 2. Trạng thái thanh toán (ĐÃ CẬP NHẬT) *@
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Payment Status</h5>
+                </div>
+
+                <div class="card-body text-center py-4">
+                    @if (Model.Status == OrderStatus.Paid || Model.Status == OrderStatus.Completed)
+                    {
+                        <div class="text-success mb-2">
+                            <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-success fw-bold">Paid</h5>
+                        <p class="text-muted small mb-0">Via @Model.PaymentMethod</p>
+                    }
+                    else if (Model.Status == OrderStatus.AwaitingPayment)
+                    {
+                        <div class="text-warning mb-2">
+                            <i class="bi bi-credit-card-2-front" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-warning fw-bold">Awaiting Payment</h5>
+                        <p class="text-muted small mb-3">Method: @Model.PaymentMethod</p>
+
+                        <form asp-action="CancelOrder" asp-controller="Order" asp-route-id="@Model.Id" method="post"
+                              onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-100 mt-2">
+                                <i class="bi bi-x-circle"></i> Cancel Order
+                            </button>
+                        </form>
+                    }
+                    else if (Model.Status == OrderStatus.Pending) // Đơn COD mới đặt
+                    {
+                        <div class="text-info mb-2">
+                            <i class="bi bi-hourglass-split" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-info fw-bold">Pending</h5>
+                        <p class="text-muted small mb-3">Shop is processing...</p>
+
+                        <form asp-action="CancelOrder" asp-controller="Order" asp-route-id="@Model.Id" method="post"
+                              onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-100 mt-2">
+                                <i class="bi bi-x-circle"></i> Cancel Order
+                            </button>
+                        </form>
+                    }
+                    else if (Model.Status == OrderStatus.Cancelled)
+                    {
+                        <div class="text-danger mb-2">
+                            <i class="bi bi-x-circle-fill" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="text-danger fw-bold">Cancelled</h5>
+                        <p class="text-muted small mb-0">Reason: @Model.Note</p>
+                    }
+                    else // Processing, Shipping...
+                    {
+                        <div class="text-primary mb-2">
+                            <i class="bi bi-box-seam" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">@Model.Status</h5>
+                        <p class="text-muted">@Model.PaymentMethod</p>
+                        <span class="badge bg-light text-dark border">Cannot Cancel</span>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

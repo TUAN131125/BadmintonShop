@@ -1,0 +1,63 @@
+﻿@model BadmintonShop.Web.ViewModels.LoginVM
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+}
+
+<div class="auth-wrapper container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-bold">LOGIN</h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Login" method="post">
+                        <input type="hidden" asp-for="ReturnUrl" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-semibold">Email Address</label>
+                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label fw-semibold">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg text-white">LOGIN</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted">
+                            Don't have an account?
+                            <a asp-action="Register" class="text-decoration-none fw-bold">Register here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,50 @@
+﻿@* Giả sử chúng ta dùng trực tiếp VariantVM hoặc tạo một VM riêng. 
+   Ở đây tôi dùng dynamic hoặc viewbag để đơn giản hóa việc hiển thị info, 
+   quan trọng là Form Post *@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Stocktake Adjustment";
+
+    // Lấy thông tin từ ViewBag (được truyền từ Controller AdjustStock GET)
+    // Bạn cần update ProductVariantController action AdjustStock để truyền các ViewBag này
+    var variantId = Context.Request.Query["variantId"];
+}
+
+<div class="container d-flex justify-content-center mt-4">
+    <div class="card shadow-sm" style="width: 500px;">
+        <div class="card-header bg-warning text-dark fw-bold">
+            <i class="fa fa-clipboard-check me-2"></i> Stocktake / Adjustment
+        </div>
+
+        <div class="card-body">
+            <div class="alert alert-info small">
+                <i class="fa fa-info-circle"></i>
+                Enter the <strong>Actual Quantity</strong> (Số lượng thực tế) you counted in the warehouse.
+                The system will automatically calculate the difference (Surplus/Loss).
+            </div>
+
+            <form asp-area="Admin" asp-controller="Inventory" asp-action="AdjustStock" method="post">
+
+                <input type="hidden" name="productVariantId" value="@variantId" />
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Actual Quantity (Thực tế)</label>
+                    <input type="number" name="actualQuantity" class="form-control form-control-lg border-warning" min="0" required placeholder="e.g. 10" />
+                    <div class="form-text">Current system stock will be adjusted to match this number.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Reason / Note</label>
+                    <textarea name="reason" class="form-control" rows="3" required placeholder="e.g. Found lost items, Damaged during shipping..."></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning fw-bold">
+                        Confirm Adjustment
+                    </button>
+                    <a href="javascript:history.back()" class="btn btn-light border">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

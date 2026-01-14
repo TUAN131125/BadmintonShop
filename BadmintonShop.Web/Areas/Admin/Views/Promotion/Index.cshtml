@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BadmintonShop.Core.Entities.Promotion>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Quản lý Khuyến Mãi";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold text-primary"><i class="fa-solid fa-tags"></i> Danh sách Khuyến Mãi</h5>
+        <a asp-action="Create" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tạo mới</a>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên chương trình</th>
+                    <th>Thời gian</th>
+                    <th>Mức giảm</th>
+                    <th>Trạng thái</th>
+                    <th class="text-end">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var isRunning = item.IsActive && item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now;
+                    <tr>
+                        <td>
+                            <div class="fw-bold">@item.Name</div>
+                            <small class="text-muted">@item.Description</small>
+                        </td>
+                        <td>
+                            <small>Từ: @item.StartDate.ToString("dd/MM/yyyy HH:mm")</small><br />
+                            <small>Đến: @item.EndDate.ToString("dd/MM/yyyy HH:mm")</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-danger fs-6">
+                                @(item.IsPercent ? $"-{item.DiscountValue:0.#}%" : $"-{item.DiscountValue:N0}đ")
+                            </span>
+                        </td>
+                        <td>
+                            @if (isRunning)
+                            {
+                                <span class="badge bg-success">Đang chạy</span>
+                            }
+                            else if (DateTime.Now > item.EndDate)
+                            {
+
+                                <span class="badge bg-secondary">Đã kết thúc</span>
+                            }
+                            else if (!item.IsActive)
+                            {
+
+                                <span class="badge bg-warning text-dark">Tạm dừng</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-info text-dark">Sắp diễn ra</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="SelectProducts" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white" title="Chọn sản phẩm">
+                                <i class="fa fa-shirt"></i> Sản phẩm
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning text-dark" title="Sửa">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa khuyến mãi này?');">
+                                <button class="btn btn-sm btn-outline-danger" title="Xóa"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!Model.Any())
+        {
+            <div class="text-center py-4 text-muted">Chưa có chương trình khuyến mãi nào.</div>
+        }
+    </div>
+</div>

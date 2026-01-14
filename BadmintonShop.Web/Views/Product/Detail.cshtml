@@ -1,0 +1,196 @@
+﻿@model BadmintonShop.Web.ViewModels.Store.ProductDetailViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+    ViewData["Title"] = Model.Name;
+    bool hasVariants = Model.Variants != null && Model.Variants.Any();
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-muted">Shop</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5 mb-5">
+        <div class="col-md-6">
+            <div class="section-card elevated p-4 text-center bg-white h-100 d-flex align-items-center justify-content-center position-relative border rounded">
+                @if (Model.IsOnSale)
+                {
+                    <span class="position-absolute top-0 start-0 badge bg-danger m-3 shadow-sm px-3 py-2">SALE</span>
+                }
+                <img src="@Model.ImageUrl" class="img-fluid rounded" style="max-height: 500px; object-fit: contain;" alt="@Model.Name" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="h-100 d-flex flex-column">
+                <h6 class="text-muted text-uppercase fw-bold ls-1">@Model.Brand</h6>
+                <h1 class="display-6 fw-bold mb-3">@Model.Name</h1>
+
+                <div class="mb-4">
+                    @if (Model.IsOnSale)
+                    {
+                        <span class="h2 text-danger fw-bold me-2" id="display-price">@Model.CurrentPrice.ToString("N0")₫</span>
+
+                        <span class="h5 text-muted text-decoration-line-through">@Model.BasePrice.ToString("N0")₫</span>
+
+                        <div class="text-success small mt-1">
+                            <i class="fa-solid fa-tags"></i> Tiết kiệm: @((Model.BasePrice - Model.CurrentPrice).ToString("N0"))₫
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="h2 text-dark fw-bold" id="display-price">@Model.CurrentPrice.ToString("N0")₫</span>
+                    }
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-muted">
+                        Category: <span class="fw-semibold text-dark">@Model.CategoryName</span>
+                    </p>
+                </div>
+
+                <form method="post" action="/Cart/AddToCart" class="mt-auto add-to-cart-form">
+                    <input type="hidden" name="productVariantId" id="selectedVariantId" value="" />
+                    <input type="hidden" name="quantity" value="1" />
+
+                    @if (hasVariants)
+                    {
+                        <div class="mb-4 p-3 bg-light rounded border">
+                            <label class="form-label fw-bold mb-2">Select Option:</label>
+                            <select class="form-select border-secondary" id="variantSelect">
+                                <option value="" disabled selected>-- Choose Size/Color --</option>
+                                @foreach (var v in Model.Variants)
+                                {
+                                    <option value="@v.Id"
+                                            data-price="@v.CurrentPrice"
+                                            data-stock="@v.Stock">
+                                        @v.AttributeName: @v.AttributeValue
+                                        @if (v.OriginalPrice > v.CurrentPrice)
+                                        {
+                                            <text>(Sale: @v.CurrentPrice.ToString("N0")₫)</text>
+                                        }
+                                        @(v.Stock > 0 ? "" : " - Out of stock")
+                                    </option>
+                                }
+                            </select>
+
+                            <div class="mt-2">
+                                <span id="stock-status" class="badge bg-secondary">Please select option</span>
+                            </div>
+                            <div id="variant-error" class="text-danger small mt-1 d-none">
+                                * Please select an option
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            Sản phẩm này chưa có phiên bản nào.
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" id="btn-add-cart" class="btn btn-primary btn-lg py-3 text-uppercase fw-bold shadow-sm" disabled>
+                            <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="mb-0 fw-bold title-accent">Product Description</h5>
+                </div>
+                <div class="card-body p-4 text-secondary lh-lg">
+                    @Html.Raw(Model.Description ?? "No description available.")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="alert alert-light border d-flex align-items-center" role="alert">
+                <i class="fa-solid fa-truck-fast fs-3 me-3 text-primary"></i>
+                <div>
+                    <h6 class="fw-bold mb-1">Shipping & Returns Policy</h6>
+                    <small class="text-muted">Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ. Đổi trả trong vòng 7 ngày.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+    {
+        <div class="mt-5 pt-4 border-top">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <h3 class="fw-bold title-accent mb-0">Related Products</h3>
+                <a asp-action="Index" class="text-decoration-none small fw-bold">View All</a>
+            </div>
+            @await Html.PartialAsync("_ProductGrid", Model.RelatedProducts)
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const variantSelect = document.getElementById('variantSelect');
+            const hiddenInput = document.getElementById('selectedVariantId');
+            const priceDisplay = document.getElementById('display-price');
+            const stockStatus = document.getElementById('stock-status');
+            const btnAdd = document.getElementById('btn-add-cart');
+            const errorMsg = document.getElementById('variant-error');
+
+            if (variantSelect) {
+                // Reset select về default mỗi khi load trang (để tránh browser cache giá trị cũ)
+                variantSelect.value = "";
+
+                const updateUI = function() {
+                    const selectedOption = variantSelect.options[variantSelect.selectedIndex];
+                    const variantId = variantSelect.value;
+
+                    // 1. Cập nhật ID vào input ẩn để gửi Form
+                    hiddenInput.value = variantId;
+
+                    if (!variantId) {
+                        btnAdd.disabled = true;
+                        return;
+                    }
+
+                    // 2. Lấy giá và tồn kho từ data attributes
+                    const price = parseFloat(selectedOption.getAttribute('data-price'));
+                    const stock = parseInt(selectedOption.getAttribute('data-stock'));
+
+                    // 3. Cập nhật giá hiển thị (Real-time)
+                    if (price) {
+                        priceDisplay.innerText = price.toLocaleString('vi-VN') + ' ₫';
+                    }
+
+                    // 4. Cập nhật trạng thái nút mua hàng
+                    if (stock > 0) {
+                        stockStatus.className = "badge bg-success";
+                        stockStatus.innerText = "In Stock (" + stock + ")";
+                        btnAdd.disabled = false;
+                        if(errorMsg) errorMsg.classList.add('d-none');
+                    } else {
+                        stockStatus.className = "badge bg-danger";
+                        stockStatus.innerText = "Out of Stock";
+                        btnAdd.disabled = true;
+                    }
+                };
+
+                variantSelect.addEventListener('change', updateUI);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,93 @@
+﻿@using BadmintonShop.Web.ViewModels.Store
+@model ProductListViewModel
+
+<div class="filter-sidebar sticky-top" style="top: 90px; z-index: 900;">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold text-uppercase mb-0 text-dark">
+                <i class="bi bi-sliders me-1"></i> Filters
+            </h6>
+            <a asp-action="Index" class="text-decoration-none text-danger small fw-bold" style="font-size: 0.8rem;">
+                Clear All
+            </a>
+        </div>
+
+        <div class="card-body p-0">
+            <form method="get" id="filterForm">
+
+                <div class="p-3 border-bottom">
+                    <h6 class="fw-bold text-muted small text-uppercase mb-3">Brand</h6>
+                    <div class="d-flex flex-column gap-2">
+                        @foreach (var b in new[] { "Yonex", "Li-Ning", "Victor", "Mizuno", "Linh-Hao" })
+                        {
+                            <label class="filter-item d-flex align-items-center cursor-pointer">
+                                <input type="checkbox"
+                                       name="brands"
+                                       value="@b"
+                                       class="form-check-input me-2 mt-0 border-secondary"
+                                       style="width: 18px; height: 18px;"
+                                       onchange="this.form.submit()"
+                                       @(Model.Brands?.Contains(b) == true ? "checked" : "") />
+                                <span class="text-dark">@b</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <h6 class="fw-bold text-muted small text-uppercase mb-3">Price Range</h6>
+                    <div class="d-flex flex-column gap-2">
+
+                        <label class="filter-item d-flex align-items-center cursor-pointer">
+                            <input type="checkbox" name="prices" value="under15"
+                                   class="form-check-input me-2 mt-0 border-secondary"
+                                   style="width: 18px; height: 18px;"
+                                   onchange="this.form.submit()"
+                                   @(Model.Prices?.Contains("under15") == true ? "checked" : "") />
+                            <span class="text-dark">Under 1.5M VND</span>
+                        </label>
+
+                        <label class="filter-item d-flex align-items-center cursor-pointer">
+                            <input type="checkbox" name="prices" value="15-25"
+                                   class="form-check-input me-2 mt-0 border-secondary"
+                                   style="width: 18px; height: 18px;"
+                                   onchange="this.form.submit()"
+                                   @(Model.Prices?.Contains("15-25") == true ? "checked" : "") />
+                            <span class="text-dark">1.5M - 2.5M VND</span>
+                        </label>
+
+                        <label class="filter-item d-flex align-items-center cursor-pointer">
+                            <input type="checkbox" name="prices" value="over25"
+                                   class="form-check-input me-2 mt-0 border-secondary"
+                                   style="width: 18px; height: 18px;"
+                                   onchange="this.form.submit()"
+                                   @(Model.Prices?.Contains("over25") == true ? "checked" : "") />
+                            <span class="text-dark">Over 2.5M VND</span>
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .filter-item {
+        transition: all 0.2s;
+        padding: 4px 0;
+    }
+
+        .filter-item:hover {
+            opacity: 0.7;
+        }
+
+    .form-check-input:checked {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+</style>

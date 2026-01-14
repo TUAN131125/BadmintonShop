@@ -1,0 +1,33 @@
+﻿@using BadmintonShop.Web.Helpers
+@model List<CartItem>
+
+<div class="mini-cart-body">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var x in Model)
+        {
+            <div class="mini-item">
+                <img src="@x.ImageUrl" class="mini-thumb" alt="@x.ProductName" />
+                <div class="mini-info">
+                    <div class="mini-name text-truncate">@x.ProductName</div>
+                    <div class="mini-meta">
+                        @x.Quantity × @x.Price.ToString("N0") VND
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="mini-empty">
+            <i class="bi bi-cart-x fs-1 mb-2"></i>
+            <p>Your cart is empty</p>
+        </div>
+    }
+</div>
+
+<div class="mini-footer">
+    <a href="/cart" class="btn btn-primary-store w-100">
+        Go to Cart <i class="bi bi-arrow-right"></i>
+    </a>
+</div>

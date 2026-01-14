@@ -1,0 +1,366 @@
+﻿/* ==========================================================================
+   MODERN ADMIN DASHBOARD THEME - UPGRADED
+   ========================================================================== */
+
+:root {
+    /* Brand Colors - Indigo & Violet Theme */
+    --primary: #4f46e5; /* Indigo 600 */
+    --primary-hover: #4338ca; /* Indigo 700 */
+    --primary-soft: #eef2ff; /* Indigo 50 */
+    /* State Colors */
+    --success: #10b981;
+    --success-soft: #d1fae5;
+    --warning: #f59e0b;
+    --warning-soft: #fef3c7;
+    --danger: #ef4444;
+    --danger-soft: #fee2e2;
+    --info: #0ea5e9;
+    --info-soft: #e0f2fe;
+    /* Neutrals */
+    --bg-body: #f3f4f6; /* Gray 100 */
+    --bg-card: #ffffff;
+    --text-main: #111827; /* Gray 900 */
+    --text-secondary: #6b7280; /* Gray 500 */
+    --border-color: #e5e7eb; /* Gray 200 */
+    /* Dimensions & Effects */
+    --sidebar-width: 280px;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===============================
+   GLOBAL RESET & TYPOGRAPHY
+================================ */
+body {
+    background-color: var(--bg-body);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    font-size: 0.925rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===============================
+   LAYOUT STRUCTURE
+================================ */
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 0; /* Fix flex overflow issues */
+}
+
+.container-fluid {
+    max-width: 1600px;
+}
+
+/* ===============================
+   SIDEBAR STYLING
+================================ */
+.admin-sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    z-index: 100;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-sidebar h4 {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+/* Navigation Links */
+.nav-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #9ca3af;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 1rem 0.75rem 0.5rem;
+}
+
+.admin-sidebar .nav-link {
+    color: var(--text-secondary);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: var(--transition);
+}
+
+    .admin-sidebar .nav-link i {
+        font-size: 1.1rem;
+        width: 1.5rem;
+        text-align: center;
+        color: #9ca3af;
+        transition: var(--transition);
+    }
+
+    /* Hover State */
+    .admin-sidebar .nav-link:hover {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+    }
+
+        .admin-sidebar .nav-link:hover i {
+            color: var(--primary);
+        }
+
+    /* Active State */
+    .admin-sidebar .nav-link.active {
+        background-color: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+        .admin-sidebar .nav-link.active i {
+            color: var(--primary);
+        }
+
+/* Submenu */
+.admin-sidebar ul.collapse .nav-link {
+    padding-left: 3.25rem;
+    font-size: 0.875rem;
+}
+
+/* ===============================
+   TOP NAVBAR
+================================ */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+/* ===============================
+   CARDS & CONTAINERS
+================================ */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    margin-bottom: 1.5rem;
+}
+
+    .card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: #d1d5db;
+        transform: translateY(-2px);
+    }
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* ===============================
+   TABLES
+================================ */
+.table-responsive {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+    .table thead th {
+        background-color: #f9fafb;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .table tbody td {
+        padding: 1rem 1.5rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border-color);
+        color: #374151;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+/* ===============================
+   FORMS (BOOTSTRAP OVERRIDES)
+================================ */
+.form-control, .form-select {
+    border-radius: var(--radius-sm);
+    border: 1px solid #d1d5db;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.925rem;
+    transition: var(--transition);
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-main);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ===============================
+   BUTTONS & BADGES
+================================ */
+.btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 1px 2px 0 rgba(79, 70, 229, 0.4);
+}
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+    }
+
+/* Soft Badges */
+.badge {
+    padding: 0.4em 0.8em;
+    font-weight: 600;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    letter-spacing: 0.025em;
+}
+
+.bg-soft-success {
+    background-color: var(--success-soft) !important;
+    color: #065f46 !important;
+}
+
+.bg-soft-danger {
+    background-color: var(--danger-soft) !important;
+    color: #991b1b !important;
+}
+
+.bg-soft-warning {
+    background-color: var(--warning-soft) !important;
+    color: #92400e !important;
+}
+
+.bg-soft-info {
+    background-color: var(--info-soft) !important;
+    color: #075985 !important;
+}
+
+/* ===============================
+   TIMELINE (INVENTORY LOGS)
+================================ */
+.timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--border-color);
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -25px; /* (1.5rem padding + 2px border) / 2 approx */
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--border-color);
+    background-color: #fff;
+    z-index: 10;
+}
+
+    .timeline-marker.success {
+        background-color: var(--success);
+        box-shadow: 0 0 0 3px var(--success-soft);
+    }
+
+    .timeline-marker.danger {
+        background-color: var(--danger);
+        box-shadow: 0 0 0 3px var(--danger-soft);
+    }
+
+.timeline-content {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+}

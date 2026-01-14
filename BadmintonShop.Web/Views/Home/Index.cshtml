@@ -1,0 +1,117 @@
+﻿@model BadmintonShop.Web.ViewModels.Store.HomeStoreViewModel
+@{
+    Layout = "_Layout.Store";
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid p-0 mb-4">
+    @* 1. BANNER SLIDER *@
+    @if (Model.Banners != null && Model.Banners.Any())
+    {
+        @Html.Partial("_HeroBannerSlider", Model.Banners)
+    }
+</div>
+
+<div class="container">
+    @* 2. CAM KẾT CỬA HÀNG *@
+    <div class="mb-5">
+        @Html.Partial("_StoreCommitments")
+    </div>
+
+    @* 3. DANH MỤC GỢI Ý *@
+    @if (Model.FeaturedCategories != null && Model.FeaturedCategories.Any())
+    {
+        <section class="mb-5">
+            <h4 class="fw-bold text-uppercase mb-4 ps-3 border-start border-4 border-primary">
+                Featured Categories
+            </h4>
+            @Html.Partial("_HomeCategories", Model.FeaturedCategories)
+        </section>
+    }
+
+    @* 4. SẢN PHẨM KHUYẾN MÃI (SALE) *@
+    @if (Model.OnSaleProducts != null && Model.OnSaleProducts.Any())
+    {
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold text-uppercase text-danger ps-3 border-start border-4 border-danger">
+                    <i class="fas fa-fire me-2"></i>Flash Sale
+                </h4>
+                <a href="/Product?sort=price_discount" class="btn btn-outline-primary btn-sm">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            @Html.Partial("_ProductGrid", Model.OnSaleProducts)
+        </section>
+    }
+
+    @* 5. THƯƠNG HIỆU *@
+    <section class="mb-5">
+        @Html.Partial("_BrandStrip")
+    </section>
+
+    @* 6. SẢN PHẨM MỚI VỀ *@
+    @if (Model.NewArrivals != null && Model.NewArrivals.Any())
+    {
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold text-uppercase ps-3 border-start border-4 border-success">
+                    New Arrivals
+                </h4>
+                <a href="/Product?sort=newest" class="btn btn-outline-success rounded-pill btn-sm px-3">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            @Html.Partial("_ProductGrid", Model.NewArrivals)
+        </section>
+    }
+
+    @* 7. SẢN PHẨM NỔI BẬT *@
+    @if (Model.FeaturedProducts != null && Model.FeaturedProducts.Any())
+    {
+        <section class="mb-5">
+            <h4 class="fw-bold text-uppercase mb-4 ps-3 border-start border-4 border-dark">
+                Featured Products
+            </h4>
+            @Html.Partial("_ProductGrid", Model.FeaturedProducts)
+        </section>
+    }
+
+    @* 8. TIN TỨC *@
+    @if (Model.LatestNews != null && Model.LatestNews.Any())
+    {
+        <section class="mb-5 bg-light p-4 rounded-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold text-uppercase m-0">Latest News</h4>
+                <a href="/News" class="text-decoration-none">View Blog <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="row g-4">
+                @foreach (var news in Model.LatestNews)
+                {
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <a href="/News/Detail/@news.Id">
+                                <img src="@news.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@news.Title">
+                            </a>
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold">
+                                    <a href="/News/Detail/@news.Id" class="text-decoration-none text-dark">@news.Title</a>
+                                </h6>
+                                <p class="card-text text-muted small text-truncate">@news.ShortDescription</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+</div>
+
+@* 9. NÚT ZALO & CHATBOT *@
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1050; display: flex; flex-direction: column; gap: 15px; align-items: center;">
+    <a href="https://zalo.me/SDT_CUA_BAN" target="_blank" class="shadow-lg rounded-circle overflow-hidden d-block" style="width: 50px; height: 50px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="w-100 h-100">
+    </a>
+
+    @Html.Partial("_ChatBotButton")
+</div>

@@ -1,0 +1,110 @@
+﻿@using BadmintonShop.Core.Entities
+@model BadmintonShop.Web.Areas.Admin.ViewModels.ProductVM
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Create Product";
+    // Ép kiểu ViewBag để có gợi ý code
+    var categories = ViewBag.Categories as IEnumerable<Category>;
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <i class="fa fa-plus"></i> Create Product
+    </div>
+
+    <div class="card-body">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Brand" class="form-label fw-bold">Brand</label>
+                    <input asp-for="Brand" class="form-control" placeholder="Enter brand" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="BasePrice" class="form-label fw-bold">Base Price <span class="text-danger">*</span></label>
+                    <input asp-for="BasePrice" type="number" class="form-control" />
+                    <span asp-validation-for="BasePrice" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SalePrice" class="form-label fw-bold">Sale Price</label>
+                    <input asp-for="SalePrice" type="number" class="form-control" />
+                    <small class="text-muted">Leave empty if not on sale</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Categories</label>
+                <div class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                    @if (categories != null && categories.Any())
+                    {
+                        foreach (var cat in categories)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="CategoryIds" value="@cat.Id" id="cat_@cat.Id">
+                                <label class="form-check-label" for="cat_@cat.Id">
+                                    @cat.Name
+                                </label>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-danger">No categories available. Please add categories first.</div>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ImageFile" class="form-label fw-bold">Product Image</label>
+                <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" onchange="previewImg(this)" />
+                <img id="preview" class="mt-3 rounded border shadow-sm" style="max-height:150px; display:none" />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label">Is Active</label>
+            </div>
+
+            <div class="mt-4 border-top pt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i> Save Product
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="fa fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewImg(input) {
+            const img = document.getElementById("preview");
+            if (input.files && input.files[0]) {
+                img.src = URL.createObjectURL(input.files[0]);
+                img.style.display = "block";
+            } else {
+                img.style.display = "none";
+            }
+        }
+    </script>
+}

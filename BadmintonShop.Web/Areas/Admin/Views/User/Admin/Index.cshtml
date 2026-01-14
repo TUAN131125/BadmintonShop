@@ -1,0 +1,86 @@
+﻿@using BadmintonShop.Web.Areas.Admin.ViewModels
+@model IEnumerable<AdminUserVM>
+
+@{
+    ViewData["Title"] = "Admin Management";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4 mb-4 fw-bold text-secondary text-uppercase fs-4">Admin Management</h1>
+
+    <div class="card shadow-sm border-0 mb-4 rounded-3">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <div class="h5 mb-0 text-primary fw-bold">
+                <i class="fas fa-user-shield me-2"></i> Admin List
+            </div>
+            <a asp-action="Create" class="btn btn-primary btn-sm px-3 rounded-pill shadow-sm">
+                <i class="fas fa-plus me-1"></i> Create New Admin
+            </a>
+        </div>
+        <div class="card-body p-0">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success m-3 rounded-3 shadow-sm border-0">
+                    <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                </div>
+            }
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-secondary">
+                        <tr>
+                            <th class="ps-4">Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">@item.Username</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td><span class="badge bg-info text-dark bg-opacity-10 border border-info">Admin / Staff</span></td>
+                                <td class="text-center">
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Locked</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm shadow-sm" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        @if (item.IsActive)
+                                        {
+                                            <form asp-action="Lock" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Lock this account?');">
+                                                <button type="submit" class="btn btn-outline-secondary" title="Lock Account"><i class="fas fa-lock"></i></button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="Unlock" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Unlock this account?');">
+                                                <button type="submit" class="btn btn-outline-success" title="Unlock Account"><i class="fas fa-lock-open"></i></button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

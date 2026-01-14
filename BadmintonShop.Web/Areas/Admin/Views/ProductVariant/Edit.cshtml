@@ -1,0 +1,83 @@
+﻿@model BadmintonShop.Web.Areas.Admin.ViewModels.ProductVariantVM
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Variant";
+}
+
+<div class="container-fluid px-0" style="max-width: 800px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-primary">Edit Variant: <span class="text-dark">@Model.SKU</span></h5>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ProductId" />
+
+                <div class="mb-4 p-3 bg-light rounded border">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive">
+                        <label class="form-check-label fw-bold" asp-for="IsActive">
+                            Is Active (Business Status)
+                        </label>
+                    </div>
+                    <div class="form-text">Uncheck to hide this product from the shop (Soft Delete).</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">SKU</label>
+                    <input asp-for="SKU" class="form-control" />
+                    <span asp-validation-for="SKU" class="text-danger small"></span>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Attribute Name</label>
+                        <input asp-for="AttributeName" class="form-control" />
+                        <span asp-validation-for="AttributeName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Attribute Value</label>
+                        <input asp-for="AttributeValue" class="form-control" />
+                        <span asp-validation-for="AttributeValue" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-muted">Current Stock (Read-only)</label>
+                        <input type="text" class="form-control bg-light" value="@Model.Stock" readonly />
+                        <div class="form-text">To change stock, use "Adjust Stock" or "Inventory Import".</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-muted">Avg Cost (Read-only)</label>
+                        <input type="text" class="form-control bg-light" value="@Model.ImportPrice.ToString("N0")" readonly />
+                        <div class="form-text">Calculated automatically (Moving Average).</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Selling Price (VND)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₫</span>
+                        <input asp-for="Price" type="number" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2 pt-3 border-top">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fa fa-save me-2"></i> Save Changes
+                    </button>
+                    <a asp-action="Index" asp-route-productId="@Model.ProductId" class="btn btn-secondary px-4">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

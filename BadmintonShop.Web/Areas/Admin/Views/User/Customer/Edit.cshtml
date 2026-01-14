@@ -1,0 +1,74 @@
+﻿@using BadmintonShop.Web.Areas.Admin.ViewModels
+@model CustomerUserVM
+
+@{
+    ViewData["Title"] = "Edit Customer";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+        <h1 class="fw-bold text-secondary fs-4 mb-0 text-uppercase">Edit Customer</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm">
+            <i class="fas fa-arrow-left me-2"></i> Back to List
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-3 mb-4">
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FullName" class="form-label fw-bold">Full Name <span class="text-danger">*</span></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Email" class="form-label fw-bold">Email (Username) <span class="text-danger">*</span></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Phone" class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Password" class="form-label fw-bold">New Password</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Leave blank to keep current password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Address" class="form-label fw-bold">Address</label>
+                        <input asp-for="Address" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Province" class="form-label fw-bold">Province / City</label>
+                        <input asp-for="Province" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3 pt-4">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch">
+                            <label class="form-check-label fw-bold" asp-for="IsActive">Active Status</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4 opacity-25" />
+                <button type="submit" class="btn btn-warning px-5 rounded-pill fw-bold shadow-sm text-dark">
+                    <i class="fas fa-sync-alt me-2"></i> Update Customer
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

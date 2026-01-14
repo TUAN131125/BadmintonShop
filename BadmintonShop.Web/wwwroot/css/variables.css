@@ -1,0 +1,36 @@
+﻿:root {
+    /* --- COLOR PALETTE --- */
+    --primary: #fd7e14; /* Cam hiện đại (Bootstrap Orange-500) */
+    --primary-hover: #e36a0d; /* Cam đậm */
+    --secondary: #1F3C88; /* Xanh đậm (Accent) */
+
+    --bg-body: #f8f9fa; /* Xám rất nhạt */
+    --bg-surface: #ffffff; /* Trắng */
+
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    /* --- SHADOWS & BORDERS --- */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-pill: 50px;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-hover: 0 12px 32px rgba(253, 126, 20, 0.15); /* Bóng màu cam nhạt */
+
+    --border-light: #e9ecef;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+}
+
+/* Helper Class cho Background Kính (Glassmorphism) - Tùy chọn */
+.glass {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}

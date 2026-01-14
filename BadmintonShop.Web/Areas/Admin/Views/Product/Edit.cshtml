@@ -1,0 +1,127 @@
+﻿@using BadmintonShop.Core.Entities
+@model BadmintonShop.Web.Areas.Admin.ViewModels.ProductVM
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Product";
+    var categories = ViewBag.Categories as IEnumerable<Category>;
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <i class="fa fa-edit"></i> Edit Product
+    </div>
+
+    <div class="card-body">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageUrl" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">Name <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Brand" class="form-label fw-bold">Brand</label>
+                    <input asp-for="Brand" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="BasePrice" class="form-label fw-bold">Base Price</label>
+                    <input asp-for="BasePrice" type="number" class="form-control" />
+                    <span asp-validation-for="BasePrice" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SalePrice" class="form-label fw-bold">Sale Price</label>
+                    <input asp-for="SalePrice" type="number" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Categories</label>
+                <div class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                    @if (categories != null)
+                    {
+                        foreach (var cat in categories)
+                        {
+                            // Kiểm tra xem ID này có trong danh sách đã chọn của Product không
+                            bool isChecked = Model.CategoryIds.Contains(cat.Id);
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="CategoryIds"
+                                       value="@cat.Id"
+                                       id="cat_@cat.Id"
+                                       @(isChecked ? "checked" : "")>
+                                <label class="form-check-label" for="cat_@cat.Id">
+                                    @cat.Name
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Current Image</label><br />
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="rounded border shadow-sm" style="height:120px; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted fst-italic">No image available</span>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ImageFile" class="form-label fw-bold">Change Image</label>
+                    <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" onchange="previewNewImg(this)" />
+                    <img id="previewImg" class="mt-2 rounded border" style="max-height:120px; display:none" />
+                </div>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label">Is Active</label>
+            </div>
+
+            <div class="mt-4 border-top pt-3">
+                <button type="submit" class="btn btn-warning">
+                    <i class="fa fa-save"></i> Update Changes
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="fa fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewNewImg(input) {
+            const preview = document.getElementById("previewImg");
+            if (input.files && input.files[0]) {
+                preview.src = URL.createObjectURL(input.files[0]);
+                preview.style.display = "block";
+            } else {
+                preview.style.display = "none";
+            }
+        }
+    </script>
+}

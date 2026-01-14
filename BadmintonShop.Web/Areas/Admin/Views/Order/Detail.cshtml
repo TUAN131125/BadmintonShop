@@ -1,0 +1,143 @@
+﻿@using BadmintonShop.Core.Enums
+@model BadmintonShop.Web.Areas.Admin.ViewModels.OrderDetailVM
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = $"Order #{Model.OrderId}";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800 fw-bold">Order #@Model.OrderId</h1>
+            <div class="text-muted small">
+                Created on: @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+            </div>
+        </div>
+        <a asp-action="Index" class="btn btn-secondary shadow-sm">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold text-primary">Order Items</div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end pe-4">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="fw-bold">@item.ProductName</div>
+                                        <div class="text-muted small">
+                                            SKU: @item.SKU
+                                            @if (!string.IsNullOrEmpty(item.AttributeName))
+                                            {
+                                                <br />
+                                        
+                                                <span>@item.AttributeName: @item.AttributeValue</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@item.UnitPrice.ToString("N0") ₫</td>
+                                    <td class="text-center">x @item.Quantity</td>
+                                    <td class="text-end pe-4 fw-bold">@item.Total.ToString("N0") ₫</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white fw-bold">Note</div>
+                        <div class="card-body bg-light text-muted fst-italic">
+                            @(string.IsNullOrEmpty(Model.Note) ? "No notes." : Model.Note)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <strong>@Model.SubTotal.ToString("N0") ₫</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <strong>+ @Model.ShippingFee.ToString("N0") ₫</strong>
+                            </div>
+                            <div class="d-flex justify-content-between border-top pt-3 mt-2 h5 fw-bold">
+                                <span>Total:</span>
+                                <span class="text-primary">@Model.TotalAmount.ToString("N0") ₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4 border-top border-primary border-4">
+                <div class="card-header bg-white fw-bold">Order Status</div>
+                <div class="card-body">
+                    <div class="mb-3 text-center">
+                        <span class="badge bg-warning text-dark fs-6 w-100 py-2">@Model.Status</span>
+                    </div>
+                    @if (Model.Status != OrderStatus.Cancelled && Model.Status != OrderStatus.Completed)
+                    {
+                        <form asp-action="UpdateStatus" method="post">
+                            <input type="hidden" name="id" value="@Model.OrderId" />
+                            <div class="input-group">
+                                <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+                                <button class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold">Customer Info</div>
+                <div class="card-body">
+                    <p class="mb-2"><i class="fa fa-user me-2 text-secondary"></i> @Model.CustomerName</p>
+                    <p class="mb-2"><i class="fa fa-phone me-2 text-secondary"></i> @Model.Phone</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-2 text-secondary"></i> @Model.Email</p>
+                    <hr class="my-2" />
+                    <small class="text-muted fw-bold">SHIPPING ADDRESS</small>
+                    <p class="mb-0 mt-1">@Model.ShippingAddress</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-bold">Payment</div>
+                <div class="card-body">
+                    <p class="mb-1">Method: <strong>@Model.PaymentMethod</strong></p>
+                    <p class="mb-0">
+                        Status:
+                        @if (Model.IsPaid)
+                        {
+                            <span class="badge bg-success">PAID</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">UNPAID</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

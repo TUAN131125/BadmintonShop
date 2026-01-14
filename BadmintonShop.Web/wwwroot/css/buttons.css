@@ -1,0 +1,79 @@
+﻿/* Base Button Style */
+.btn {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-md);
+    transition: all 0.25s ease-in-out;
+}
+
+/* Primary Button (Orange) */
+.btn-primary-store {
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: white;
+}
+
+    .btn-primary-store:hover {
+        background-color: var(--color-primary-dark);
+        border-color: var(--color-primary-dark);
+        transform: translateY(-2px); /* Nổi lên nhẹ khi hover */
+        box-shadow: 0 4px 12px rgba(255, 122, 0, 0.3); /* Bóng cam glowing */
+        color: white;
+    }
+
+/* Outline Button (White with Orange border) */
+.btn-outline-store {
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+    .btn-outline-store:hover {
+        background-color: var(--color-primary);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 122, 0, 0.2);
+    }
+
+/* Icon Buttons (Search, Cart toggle) */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    color: var(--color-text-main);
+}
+
+    .icon-btn:hover {
+        background-color: rgba(0,0,0,0.05);
+        color: var(--color-primary);
+    }
+
+/* Chatbot Floating Button */
+.chatbot-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    font-size: 24px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .chatbot-btn:hover {
+        transform: scale(1.1) rotate(10deg);
+    }

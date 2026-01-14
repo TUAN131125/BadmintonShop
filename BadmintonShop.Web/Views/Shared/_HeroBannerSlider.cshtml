@@ -1,0 +1,32 @@
+﻿@using BadmintonShop.Core.Entities
+@model IList<Banner>
+
+@if (Model != null && Model.Any())
+{
+    <div class="swiper store-hero-slider mb-4">
+        <div class="swiper-wrapper">
+            @foreach (var b in Model)
+            {
+                <div class="swiper-slide">
+                    <a href="@(string.IsNullOrEmpty(b.TargetUrl) ? "#" : b.TargetUrl)" class="banner-item d-block">
+                        <img class="store-banner w-100 h-auto object-fit-cover"
+                             src="@b.ImageUrl"
+                             alt="@b.Title"
+                             loading="lazy" />
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+}
+else
+{
+    <div class="section-card p-4 my-3 text-center text-muted">
+        <i class="bi bi-images fs-1 mb-2 d-block"></i>
+        No banners configured.
+    </div>
+}

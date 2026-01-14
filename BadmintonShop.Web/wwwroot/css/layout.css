@@ -1,0 +1,184 @@
+﻿/* ================= 3D FLOATING NAVBAR ================= */
+.store-navbar {
+    /* Kích thước và vị trí để tạo hiệu ứng "Rời góc" */
+    width: 95%;
+    max-width: 1320px; /* Giới hạn chiều rộng tối đa */
+    margin: 20px auto 0 auto; /* Canh giữa và cách top 20px */
+    padding: 10px 20px;
+    /* Hiệu ứng 3D & Kính */
+    background: rgba(255, 255, 255, 0.85); /* Nền trắng mờ */
+    backdrop-filter: blur(12px); /* Hiệu ứng làm mờ hậu cảnh */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6); /* Viền sáng nhẹ */
+    border-radius: 50px; /* Bo tròn mạnh tạo hình viên thuốc */
+    /* Đổ bóng sâu tạo cảm giác nổi 3D */
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+    /* Sticky: Luôn nổi khi cuộn trang */
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+    /* Khi cuộn trang, navbar có thể co lại chút xíu (Optional) */
+    .store-navbar.scrolled {
+        padding: 8px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
+    }
+
+/* --- BRAND LOGO --- */
+.brand-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    /* Gradient Text cho Logo */
+    background: linear-gradient(45deg, var(--primary), #ff9f43);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+/* --- MENU ITEMS (Pill Hover Effect) --- */
+.nav main-menu {
+    gap: 5px; /* Khoảng cách giữa các nút */
+}
+
+.nav-link {
+    color: var(--text-main) !important;
+    font-weight: 600;
+    padding: 8px 18px !important;
+    border-radius: 30px; /* Bo tròn nút */
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 0 2px;
+}
+
+    /* Xóa hiệu ứng gạch chân cũ */
+    .nav-link::after {
+        content: none;
+    }
+
+    /* Hiệu ứng Hover mới: Nền cam, chữ trắng, nổi lên */
+    .nav-link:hover, .nav-link.active {
+        background: var(--primary); /* Nền cam */
+        color: white !important;
+        transform: translateY(-2px); /* Bay lên nhẹ */
+        box-shadow: 0 4px 15px rgba(253, 126, 20, 0.4); /* Bóng cam phát sáng */
+    }
+
+/* ================= RE-STYLED SEARCH BAR ================= */
+.store-search {
+    /* Tạo khung hình viên thuốc */
+    display: flex;
+    align-items: center;
+    background: #f8f9fa; /* Màu xám rất nhạt làm nền */
+    border: 1px solid #e9ecef; /* Viền siêu mỏng */
+    border-radius: 50px; /* Bo tròn hoàn toàn */
+    padding: 3px; /* Khoảng cách để nút Search không dính sát mép */
+    width: 100%;
+    max-width: 450px; /* Giới hạn độ rộng */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+}
+
+    /* Hiệu ứng khi bấm vào ô tìm kiếm */
+    .store-search:focus-within {
+        background: #fff; /* Nền chuyển trắng sáng */
+        border-color: var(--primary); /* Viền chuyển màu cam */
+        box-shadow: 0 4px 12px rgba(253, 126, 20, 0.15); /* Đổ bóng cam nhẹ */
+        transform: translateY(-1px);
+    }
+
+    /* Icon kính lúp bên trái */
+    .store-search .bi-search {
+        font-size: 1rem;
+        color: #adb5bd; /* Màu xám nhạt */
+        margin-left: 15px; /* Cách lề trái */
+        margin-right: 5px;
+    }
+
+    /* Ô nhập liệu Input */
+    .store-search input {
+        background: transparent;
+        border: none;
+        outline: none;
+        flex-grow: 1; /* Tự động giãn đầy khoảng trống */
+        font-size: 0.95rem;
+        color: var(--text-main);
+        padding: 8px 0;
+    }
+
+        .store-search input::placeholder {
+            color: #ced4da;
+            font-weight: 500;
+        }
+
+    /* Nút bấm Search bên phải */
+    .store-search button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50px; /* Bo tròn theo thanh search */
+        padding: 8px 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+        .store-search button:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05); /* Phóng to nhẹ nút khi hover */
+            box-shadow: 0 4px 10px rgba(253, 126, 20, 0.3);
+        }
+
+/* Fix lỗi Icon Heart bị vuông cam (như trong ảnh bạn gửi) */
+.icon-btn {
+    border-radius: 50% !important; /* Bắt buộc bo tròn */
+    aspect-ratio: 1/1; /* Đảm bảo luôn vuông để bo thành tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- ACTION ICONS --- */
+.icon-btn {
+    width: 42px;
+    height: 42px;
+    background: #fff; /* Nền trắng cho icon */
+    border: 1px solid #eee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+    .icon-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-3px) rotate(10deg); /* Xoay nhẹ vui mắt */
+        box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
+    }
+
+/* Badge số lượng giỏ hàng */
+.badge-count {
+    top: -5px;
+    right: -5px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 991px) {
+    .store-navbar {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        top: 0;
+        padding: 10px;
+    }
+
+    .store-search {
+        display: none; /* Ẩn search trên mobile hoặc xử lý riêng */
+    }
+}

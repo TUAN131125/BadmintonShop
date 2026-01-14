@@ -1,0 +1,155 @@
+﻿@model BadmintonShop.Web.Areas.Admin.ViewModels.PromotionProductSelectVM
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Add Products to Promotion";
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 fw-bold text-primary">
+            <i class="fa-solid fa-tags"></i> Add Products to: <span class="text-dark">@Model.PromotionName</span>
+        </h5>
+    </div>
+    <div class="card-body">
+
+        <form method="get" asp-action="SelectProducts" class="row g-3 mb-4 border-bottom pb-4">
+            <input type="hidden" name="id" value="@Model.PromotionId" />
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Search Keyword</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="fa fa-search"></i></span>
+                    <input type="text" name="keyword" class="form-control" placeholder="Product name..." value="@Model.Keyword">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Brand</label>
+                <select name="brand" class="form-select" asp-items="ViewBag.Brands">
+                    <option value="">-- All Brands --</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Category</label>
+                <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+                    <option value="">-- All Categories --</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fa fa-filter"></i> Apply Filter
+                </button>
+            </div>
+        </form>
+
+        <form method="post" asp-action="AddProducts">
+            <input type="hidden" name="promotionId" value="@Model.PromotionId" />
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-muted">Found <span class="text-primary">@Model.Products.Count</span> products</h6>
+
+                @if (Model.Products.Any(p => !p.IsAlreadyInPromotion))
+                {
+                    <button type="submit" class="btn btn-success" onclick="return confirm('Add selected products to promotion?');">
+                        <i class="fa fa-plus-circle"></i> Add Selected
+                    </button>
+                }
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" style="width: 50px;">
+                                <input type="checkbox" id="checkAll" class="form-check-input" />
+                            </th>
+                            <th style="min-width: 250px;">Product Info</th>
+                            <th>Brand</th>
+                            <th>Original Price</th>
+                            <th class="text-end">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Products.Any())
+                        {
+                            foreach (var item in Model.Products)
+                            {
+                                <tr class="@(item.IsAlreadyInPromotion ? "table-active bg-light" : "")">
+                                    <td class="text-center">
+                                        @if (item.IsAlreadyInPromotion)
+                                        {
+                                            <i class="fa fa-check-circle text-success fs-5"></i>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="selectedProductIds" value="@item.Id" class="form-check-input product-checkbox" />
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl" class="rounded border" style="width: 50px; height: 50px; object-fit: cover;" />
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded border d-flex align-items-center justify-content-center bg-light text-muted" style="width: 50px; height: 50px;">
+                                                    <i class="fa fa-image"></i>
+                                                </div>
+                                            }
+                                            <div>
+                                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">@item.Name</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark border">@item.Brand</span></td>
+                                    <td class="fw-bold">@item.Price.ToString("N0") ₫</td>
+                                    <td class="text-end">
+                                        @if (item.IsAlreadyInPromotion)
+                                        {
+                                            <span class="badge bg-success bg-opacity-75">Added</span>
+                                            <button type="submit" formaction="@Url.Action("RemoveProduct")" name="productId" value="@item.Id"
+                                                    class="btn btn-link text-danger btn-sm p-0 ms-2" onclick="return confirm('Remove this product from promotion?');">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary bg-opacity-50">Not added</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="fa fa-search fa-2x mb-3 d-block opacity-50"></i>
+                                    No products found matching your filter.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer bg-light">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="fa fa-arrow-left"></i> Back to Promotions List</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Script Check All đơn giản
+        document.getElementById('checkAll').addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('.product-checkbox');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        });
+    </script>
+}

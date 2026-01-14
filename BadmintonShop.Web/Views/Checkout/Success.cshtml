@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="container py-5 text-center">
+    <div class="section-card elevated p-5 d-inline-block" style="max-width: 600px;">
+
+        <div class="mb-4 text-success">
+            <i class="bi bi-check-circle-fill" style="font-size: 5rem;"></i>
+        </div>
+
+        <h2 class="fw-bold mb-3">Order Placed Successfully!</h2>
+
+        <p class="text-secondary fs-5 mb-4">
+            Thank you for purchasing. Your order ID is
+            <span class="fw-bold text-dark">#@ViewBag.OrderId</span>.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/" class="btn btn-outline-store px-4">
+                Return Home
+            </a>
+            <a href="/Product" class="btn btn-primary-store px-4">
+                Continue Shopping
+            </a>
+        </div>
+
+    </div>
+</div>

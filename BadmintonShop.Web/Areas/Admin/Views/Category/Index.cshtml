@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BadmintonShop.Web.Areas.Admin.ViewModels.CategoryVM>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">
+            <i class="fa-solid fa-list"></i> Categories
+        </span>
+
+        <a class="btn btn-primary btn-sm"
+           asp-area="Admin"
+           asp-controller="Category"
+           asp-action="Create">
+            <i class="fa fa-plus"></i> Add Category
+        </a>
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th style="width:160px;" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="2" class="text-center text-muted py-4">
+                            No categories found
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var c in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@c.Name</td>
+                            <td class="text-center">
+                                <!-- EDIT -->
+                                <a class="btn btn-sm btn-outline-primary me-1"
+                                   asp-area="Admin"
+                                   asp-controller="Category"
+                                   asp-action="Edit"
+                                   asp-route-id="@c.Id"
+                                   title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+
+                                <!-- DELETE (POST) -->
+                                <form asp-area="Admin"
+                                      asp-controller="Category"
+                                      asp-action="DeleteConfirmed"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@c.Id" />
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Delete this category?')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

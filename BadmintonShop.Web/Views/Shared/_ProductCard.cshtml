@@ -1,0 +1,42 @@
+﻿@using BadmintonShop.Web.ViewModels.Store
+@model ProductItemViewModel
+
+<div class="card h-100 border-0 shadow-sm product-card">
+    <div class="position-relative overflow-hidden bg-white rounded-top" style="padding-top: 100%;">
+        <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.Id">
+            <img src="@Model.ImageUrl" class="position-absolute top-50 start-50 translate-middle"
+                 alt="@Model.Name"
+                 style="max-width: 90%; max-height: 90%; object-fit: contain;">
+        </a>
+
+        @if (Model.IsOnSale)
+        {
+            <span class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 small fw-bold m-2 rounded">
+                -@Model.DiscountPercent%
+            </span>
+        }
+    </div>
+
+    <div class="card-body text-center d-flex flex-column p-3">
+        <h6 class="card-title text-truncate mb-2">
+            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.Id"
+               class="text-decoration-none text-dark fw-semibold">
+                @Model.Name
+            </a>
+        </h6>
+
+        <div class="mt-auto price-box">
+            @if (Model.IsOnSale)
+            {
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <span class="text-danger fw-bold">@Model.CurrentPrice.ToString("N0")₫</span>
+                    <span class="text-muted text-decoration-line-through small">@Model.BasePrice.ToString("N0")₫</span>
+                </div>
+            }
+            else
+            {
+                <span class="fw-bold text-dark">@Model.BasePrice.ToString("N0")₫</span>
+            }
+        </div>
+    </div>
+</div>

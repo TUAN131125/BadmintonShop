@@ -1,0 +1,54 @@
+﻿@using BadmintonShop.Core.Entities
+@model Banner
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit Banner</h2>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ImageUrl" />
+    <input type="hidden" asp-for="OrderIndex" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SubTitle" class="form-label">Sub Title</label>
+        <input asp-for="SubTitle" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TargetUrl" class="form-label">Target Url</label>
+        <input asp-for="TargetUrl" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Current Image</label><br />
+        <img src="@Model.ImageUrl" height="100" class="border rounded" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Change Image (Optional)</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="OrderIndex" class="form-label">Order Priority</label>
+        <input asp-for="OrderIndex" class="form-control" />
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label">Is Active</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

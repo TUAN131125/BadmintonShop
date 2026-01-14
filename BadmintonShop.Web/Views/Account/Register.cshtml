@@ -1,0 +1,123 @@
+﻿@model BadmintonShop.Web.ViewModels.RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+}
+
+<div class="auth-wrapper container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-bold">REGISTER</h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label fw-semibold">Full Name</label>
+                            <input asp-for="FullName" class="form-control" placeholder="Nguyen Van A" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label fw-semibold">Email Address</label>
+                                <input asp-for="Email" class="form-control" type="email" placeholder="name@example.com" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label fw-semibold">Phone Number</label>
+                                <input asp-for="Phone" class="form-control" placeholder="090xxxxxxx" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Province" class="form-label fw-semibold">City / Province</label>
+                            <select asp-for="Province" class="form-select">
+                                <option value="">-- Select Province --</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Hải Phòng">Hải Phòng</option>
+                                <option value="Cần Thơ">Cần Thơ</option>
+                                <option value="Khánh Hòa">Khánh Hòa</option>
+                                <option value="Đồng Nai">Đồng Nai</option>
+                                <option value="Bình Dương">Bình Dương</option>
+                                <option value="Tuyên Quang">Tuyên Quang</option>
+                                <option value="Lào Cai">Lào Cai</option>
+                                <option value="Thái Nguyên">Thái Nguyên</option>
+                                <option value="Phú Thọ">Phú Thọ</option>
+                                <option value="Bắc Ninh">Bắc Ninh</option>
+                                <option value="Hưng Yên">Hưng Yên</option>
+                                <option value="Ninh Bình">Ninh Bình</option>
+                                <option value="Quản Trị">Quản Trị</option>
+                                <option value="Quảng Ngãi">Quảng Ngãi</option>
+                                <option value="Gia Lai">Gia Lai</option>
+                                <option value="Khánh Hòa">Khánh Hòa</option>
+                                <option value="Lâm Đồng">Lâm Đồng</option>
+                                <option value="Đắk Lắk">Đắk Lắk</option>
+                                <option value="Đồng Nai">Đồng Nai</option>
+                                <option value="Tây Ninh">Tây Ninh</option>
+                                <option value="Vĩnh Long">Vĩnh Long</option>
+                                <option value="Đồng Tháp">Đồng Tháp</option>
+                                <option value="Cà Mau">Cà Mau</option>
+                                <option value="An Giang">An Giang</option>
+                                <option value="Thành phố Huế">Thành Phố Huế</option>
+                                <option value="Lai Châu">Lai Châu</option>
+                                <option value="Điện Biên">Điện Biên</option>
+                                <option value="Sơn La">Sơn La</option>
+                                <option value="Lạng Sơn">Lạng Sơn</option>
+                                <option value="Quảng Ninh">Quảng Ninh</option>
+                                <option value="Thanh Hóa">Thanh Hóa</option>
+                                <option value="Nghệ An">Nghệ An</option>>
+                                <option value="Hà Tĩnh">Hà Tĩnh</option>
+                                <option value="Cao Bằng">Cao Bằng</option>
+                            </select>
+                            <span asp-validation-for="Province" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label fw-semibold">Specific Address</label>
+                            <textarea asp-for="Address" class="form-control" rows="2"
+                                      placeholder="House No, Street Name, Ward, District... (e.g., 123 Nguyen Trai, Phuoc Tien Ward, Nha Trang City)"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Password" class="form-label fw-semibold">Password</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="******" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label fw-semibold">Confirm Password</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="******" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg text-white">REGISTER</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted">
+                            Already have an account?
+                            <a asp-action="Login" class="text-decoration-none fw-bold">Login here</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

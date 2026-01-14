@@ -1,0 +1,196 @@
+﻿@model BadmintonShop.Web.Areas.Admin.ViewModels.ProductDetailAdminVM
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Product Details: " + Model.Name;
+    // Giữ nguyên format vi-VN để hiển thị tiền VND chính xác (dấu chấm phân cách ngàn)
+    var cultureInfo = new System.Globalization.CultureInfo("vi-VN");
+}
+
+<div class="container-fluid px-4">
+
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">@Model.Name</h1>
+            <p class="text-muted mb-0">Brand: <strong>@Model.Brand</strong> | ID: #@Model.Id</p>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning shadow-sm">
+                <i class="fas fa-edit fa-sm text-white-50"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-start border-primary border-4 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-uppercase text-primary fw-bold small mb-1">Total Stock</div>
+                            <div class="h3 mb-0 fw-bold text-gray-800">@Model.TotalStock</div>
+                        </div>
+                        <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-start border-success border-4 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-uppercase text-success fw-bold small mb-1">Inventory Value</div>
+                            <div class="h3 mb-0 fw-bold text-gray-800">@Model.TotalStockValue.ToString("C0", cultureInfo)</div>
+                        </div>
+                        <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-start border-info border-4 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-uppercase text-info fw-bold small mb-1">Total Variants</div>
+                            <div class="h3 mb-0 fw-bold text-gray-800">@Model.TotalVariants</div>
+                        </div>
+                        <i class="fas fa-layer-group fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 fw-bold text-primary">General Information</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Model.ImageUrl" class="img-fluid rounded border" style="max-height: 200px;" alt="@Model.Name">
+                        }
+                        else
+                        {
+                            <div class="p-4 bg-light text-muted border rounded">No Image Available</div>
+                        }
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-muted">Status</span>
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Hidden</span>
+                            }
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-muted">Category</span>
+                            <span class="fw-bold text-dark">@Model.CategoryName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-muted">Base Price</span>
+                            <span class="fw-bold">@Model.BasePrice.ToString("C0", cultureInfo)</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-muted">Sale Price</span>
+                            @if (Model.SalePrice.HasValue)
+                            {
+                                <span class="text-danger fw-bold">@Model.SalePrice.Value.ToString("C0", cultureInfo)</span>
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </li>
+                    </ul>
+
+                    <div class="mt-4">
+                        <label class="small text-muted fw-bold">Description:</label>
+                        <div class="bg-light p-3 rounded small mt-1" style="max-height: 200px; overflow-y: auto;">
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 fw-bold text-primary">Variants & Inventory</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-uppercase small text-secondary">
+                            <tr>
+                                <th class="ps-3">SKU</th>
+                                <th>Attribute</th>
+                                <th class="text-end">Cost</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-end">Est. Profit</th>
+                                <th class="text-center">Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var v in Model.Variants)
+                            {
+                                <tr>
+                                    <td class="ps-3 fw-bold text-dark">@v.SKU</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">@v.AttributeName: @v.AttributeValue</span>
+                                    </td>
+                                    <td class="text-end text-muted">@v.ImportPrice.ToString("N0")</td>
+                                    <td class="text-end fw-bold">@v.SalePrice.ToString("N0")</td>
+
+                                    <td class="text-end">
+                                        @if (v.EstimatedProfit > 0)
+                                        {
+                                            <span class="text-success small fw-bold">+@v.EstimatedProfit.ToString("N0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger small fw-bold">@v.EstimatedProfit.ToString("N0")</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (v.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger-subtle text-danger border border-danger">Out of Stock</span>
+                                        }
+                                        else if (v.Stock <= 5)
+                                        {
+                                            <span class="badge bg-warning-subtle text-warning border border-warning">Low: @v.Stock</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success-subtle text-success border border-success">@v.Stock</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white small text-muted">
+                    <i class="fas fa-info-circle me-1"></i> Cost price is based on the Weighted Average Cost (MAC) method.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

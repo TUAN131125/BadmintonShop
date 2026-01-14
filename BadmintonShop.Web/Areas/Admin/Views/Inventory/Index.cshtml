@@ -1,0 +1,144 @@
+﻿@model IEnumerable<BadmintonShop.Web.Areas.Admin.ViewModels.InventoryIndexVM>
+
+@{
+    ViewData["Title"] = "Inventory Management";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Inventory Management</h2>
+            <p class="text-muted small mb-0">Track stock, average cost, and audit logs.</p>
+        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+            <i class="fa-solid fa-plus me-1"></i> Quick Import
+        </button>
+        <a asp-action="Cleanup" class="btn btn-outline-danger ms-2" title="Dọn dẹp dữ liệu rác">
+            <i class="fa-solid fa-trash-can me-1"></i> Cleanup
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Product Info</th>
+                        <th>Variant / SKU</th>
+                        <th class="text-end">Avg Cost</th>
+                        <th class="text-center">Stock</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                No inventory records found.
+                                Please create variants first.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">@item.ProductName</td>
+                                <td>
+                                    <div class="small text-muted">@item.AttributeName: <strong class="text-dark">@item.AttributeValue</strong></div>
+                                    <code class="text-primary fw-bold">@item.SKU</code>
+                                </td>
+
+                                <td class="text-end">
+                                    @item.AverageCost.ToString("N0") ₫
+                                </td>
+
+                                <td class="text-center">
+                                    <span class="h5 fw-bold mb-0">@item.Quantity</span>
+                                </td>
+                                <td>
+                                    @if (item.IsLowStock)
+                                    {
+                                        <span class="badge bg-danger">Low Stock</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">In Stock</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        <a asp-action="AdjustStock" asp-route-variantId="@item.Id" class="btn btn-sm btn-outline-warning" title="Stocktake / Adjust">
+                                            <i class="fa-solid fa-clipboard-check"></i>
+                                        </a>
+
+                                        <a asp-action="History" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="View Logs">
+                                            <i class="fa-solid fa-clock-rotate-left"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="importModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form asp-action="ImportStock" method="post" class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Import Stock (Inbound)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">SELECT PRODUCT VARIANT</label>
+                    <select name="ProductVariantId" class="form-select" asp-items="ViewBag.VariantList" required>
+                        <option value="">-- Select a Variant --</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-muted small fw-bold">QUANTITY</label>
+                        <input type="number" name="Quantity" class="form-control" min="1" value="10" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-muted small fw-bold">IMPORT PRICE (PER UNIT)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₫</span>
+                            <input type="number" name="ImportPrice" class="form-control" min="0" required placeholder="0" />
+                        </div>
+                        <div class="form-text small">Enter the cost for THIS batch.</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">REASON / NOTE</label>
+                    <textarea name="Reason" class="form-control" rows="2" placeholder="e.g. New shipment from Yonex..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary px-4">Confirm Import</button>
+            </div>
+        </form>
+    </div>
+</div>

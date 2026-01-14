@@ -1,0 +1,41 @@
+﻿@using BadmintonShop.Core.Entities
+@model Banner
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create Banner</h2>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" required />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SubTitle" class="form-label">Sub Title</label>
+        <input asp-for="SubTitle" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TargetUrl" class="form-label">Target Url</label>
+        <input asp-for="TargetUrl" class="form-control" placeholder="#" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Banner Image</label>
+        <input type="file" name="imageFile" class="form-control" required />
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label">Is Active</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

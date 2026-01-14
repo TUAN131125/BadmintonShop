@@ -1,0 +1,19 @@
+﻿@model BadmintonShop.Web.ViewModels.Store.ProductListViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.Store.cshtml";
+    ViewData["Title"] = "Shop Products";
+}
+
+<div class="container py-4 product-page">
+    <div class="row g-4">
+
+        <div class="col-lg-3">
+            @await Html.PartialAsync("_ProductFilterPanel", Model)
+        </div>
+
+        <div class="col-lg-9">
+            @await Html.PartialAsync("_ProductGrid", Model.Products)
+        </div>
+
+    </div>
+</div>

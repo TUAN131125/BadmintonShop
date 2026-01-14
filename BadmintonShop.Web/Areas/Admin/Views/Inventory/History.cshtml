@@ -1,0 +1,93 @@
+﻿@using BadmintonShop.Core.Entities
+@model BadmintonShop.Core.Entities.Inventory
+@* LƯU Ý: Model đổi thành Inventory vì Controller gửi Inventory *@
+
+@{
+    ViewData["Title"] = "Inventory History";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4" style="max-width: 900px;">
+    <div class="d-flex align-items-center mb-4">
+        <a asp-action="Index" class="btn btn-light btn-sm me-3 border shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
+        <div>
+            <h4 class="fw-bold mb-0">Stock History</h4>
+            <div class="text-muted small">
+                Product: <strong class="text-dark">@Model.ProductVariant?.Product?.Name</strong> |
+                Variant: <strong>@Model.ProductVariant?.AttributeValue</strong> |
+                SKU: <span class="fw-bold text-dark">@Model.ProductVariant?.SKU</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            @if (Model.Logs != null && Model.Logs.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-muted small">
+                            <tr>
+                                <th class="ps-4">Date/Time</th>
+                                <th>Action</th>
+                                <th class="text-center">Change</th>
+                                <th class="text-end">Price / Cost</th>
+                                <th class="text-center">Stock After</th>
+                                <th class="pe-4">Reason / User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in Model.Logs.OrderByDescending(x => x.CreatedAt))
+                            {
+                                var isImport = log.ActionType == InventoryActionType.Import;
+                                var isExport = log.ActionType == InventoryActionType.Export;
+
+                                <tr>
+                                    <td class="ps-4">
+                                        <span class="fw-bold text-dark">@log.CreatedAt.ToString("dd/MM/yyyy")</span><br />
+                                        <small class="text-muted">@log.CreatedAt.ToString("HH:mm")</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge @(isImport ? "bg-success" : (isExport ? "bg-secondary" : "bg-warning text-dark"))">
+                                            @log.ActionType.ToString().ToUpper()
+                                        </span>
+                                        @if (log.OrderId.HasValue)
+                                        {
+                                            <div class="small mt-1"><a href="#" class="text-decoration-none">#@log.OrderId</a></div>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fw-bold @(log.QuantityChange > 0 ? "text-success" : "text-danger") fs-6">
+                                            @(log.QuantityChange > 0 ? "+" : "")@log.QuantityChange
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        @log.CostPerUnit.ToString("N0") ₫
+                                    </td>
+                                    <td class="text-center fw-bold">
+                                        @log.StockAfter
+                                    </td>
+                                    <td class="pe-4">
+                                        <div class="text-dark small fst-italic">"@log.Reason"</div>
+                                        <div class="text-muted small" style="font-size: 0.75rem;">
+                                            By: @(log.User?.FullName ?? "System/Admin")
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="fa-solid fa-box-open fs-1 mb-3 opacity-25"></i>
+                    <p>No transaction history found.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

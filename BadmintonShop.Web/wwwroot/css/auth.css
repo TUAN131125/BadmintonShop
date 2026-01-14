@@ -1,0 +1,71 @@
+﻿:root {
+    --auth-primary: #fd7e14; /* Màu cam chuẩn Bootstrap */
+    --auth-primary-hover: #e96b02; /* Màu cam đậm hơn khi hover */
+}
+
+/* ================= LOGIN & REGISTER CARD ================= */
+/* Chỉnh màu header của Card thành màu cam (như hình ảnh bạn gửi) */
+.card-header.bg-primary {
+    background-color: var(--auth-primary) !important;
+    color: #fff;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0; /* Bo tròn góc trên */
+}
+
+/* Nút bấm chính cũng màu cam */
+.btn-primary {
+    background-color: var(--auth-primary);
+    border-color: var(--auth-primary);
+}
+
+    .btn-primary:hover {
+        background-color: var(--auth-primary-hover);
+        border-color: var(--auth-primary-hover);
+    }
+
+/* ================= DROPDOWN MENU (NAVBAR) ================= */
+/* Làm đẹp dropdown menu user */
+.dropdown-menu {
+    border-radius: 8px;
+    padding: 10px 0;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Header (Hello, User) */
+.dropdown-header {
+    font-size: 0.9rem;
+    color: #6c757d;
+    padding: 8px 20px;
+}
+
+/* Các item trong menu */
+.dropdown-item {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+    /* Hover vào item thì hiện nền cam nhạt, chữ cam đậm */
+    .dropdown-item:hover, .dropdown-item:focus {
+        background-color: #fff3cd; /* Màu cam rất nhạt */
+        color: var(--auth-primary-hover);
+    }
+
+    /* Nút Logout màu đỏ */
+    .dropdown-item.text-danger:hover {
+        background-color: #fee2e2; /* Màu đỏ nhạt */
+        color: #dc3545;
+    }
+
+/* Hiệu ứng hiện menu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

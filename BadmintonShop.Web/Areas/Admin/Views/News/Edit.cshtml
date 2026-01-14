@@ -1,0 +1,80 @@
+﻿@model BadmintonShop.Web.ViewModels.News.NewsCreateUpdateVM
+
+@{
+    ViewData["Title"] = "Update News";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+        <h1 class="fw-bold text-secondary fs-4 mb-0 text-uppercase">Update Post</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm">
+            <i class="fas fa-arrow-left me-2"></i> Back to List
+        </a>
+    </div>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ExistingImageUrl" />
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label fw-bold text-dark">Title</label>
+                            <input asp-for="Title" class="form-control form-control-lg" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ShortDescription" class="form-label fw-bold text-dark">Short Description</label>
+                            <textarea asp-for="ShortDescription" class="form-control bg-light" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label fw-bold text-dark">Content</label>
+                            <textarea asp-for="Content" class="form-control" rows="12"></textarea>
+                            <span asp-validation-for="Content" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-light py-3 border-0">
+                        <h6 class="m-0 fw-bold text-primary">Image & Status</h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Current Image</label>
+                            <div class="p-1 border rounded bg-white text-center">
+                                <img src="@Model.ExistingImageUrl" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" alt="Current Image" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ImageFile" class="form-label fw-bold">Change Image (Optional)</label>
+                            <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+                        </div>
+
+                        <hr class="text-muted opacity-25">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold d-block">Visibility</label>
+                            <div class="form-check form-switch ps-0">
+                                <input asp-for="IsPublished" class="form-check-input ms-0 me-2" type="checkbox" role="switch" id="editPublishSwitch" style="cursor: pointer;">
+                                <label class="form-check-label pt-1" for="editPublishSwitch" style="cursor: pointer;">Published</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm text-uppercase">
+                            <i class="fas fa-sync-alt me-2"></i> UPDATE POST
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

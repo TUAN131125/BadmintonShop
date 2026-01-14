@@ -1,0 +1,45 @@
+﻿@model BadmintonShop.Web.Areas.Admin.ViewModels.CategoryVM
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <i class="fa fa-edit"></i> Edit Category
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label class="form-label">Category Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Parent Category</label>
+                <select asp-for="ParentId" class="form-select">
+                    <option value="">-- Root --</option>
+                    @foreach (var c in ViewBag.Parents)
+                    {
+                        <option value="@c.Id" selected="@(c.Id == Model.ParentId)">
+                            @c.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i> Update
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="fa fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

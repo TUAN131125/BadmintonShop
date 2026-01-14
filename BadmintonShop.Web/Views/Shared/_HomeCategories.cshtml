@@ -1,0 +1,22 @@
+﻿@model IEnumerable<BadmintonShop.Core.Entities.Category>
+
+<div class="row g-3">
+    @foreach (var item in Model)
+    {
+        <div class="col-6 col-md-3">
+            <a href="/Product?categoryId=@item.Id" class="text-decoration-none">
+
+                <div class="category-card h-100 d-flex align-items-center justify-content-center flex-column p-4">
+
+                    @* Phần hiển thị ảnh (đang ẩn, sau này dùng thì bỏ comment) *@
+                    @* @if (!string.IsNullOrEmpty(item.ImageUrl)) {
+                        <img src="@item.ImageUrl" class="mb-3 category-icon" alt="@item.Name" /> 
+                    }
+                    *@
+
+                    <h5 class="fw-bold mb-0 text-center">@item.Name</h5>
+                </div>
+            </a>
+        </div>
+    }
+</div>
