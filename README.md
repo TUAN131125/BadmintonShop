@@ -5,7 +5,7 @@
 ![Badges](https://img.shields.io/badge/Payment-PayPal%20Integration-00457C)
 ![Badges](https://img.shields.io/badge/Status-Completed-success)
 
-> **Đồ án Tốt nghiệp / Khóa luận Tốt nghiệp**
+> **Đồ án cơ sở**
 > 
 > Một hệ thống thương mại điện tử chuyên biệt cho lĩnh vực cầu lông, giải quyết các bài toán về sản phẩm đa biến thể (Màu sắc, kích thước, trọng lượng) và quản lý kho hàng chặt chẽ.
 
@@ -47,7 +47,7 @@ Badminton Shop là một ứng dụng web được xây dựng trên nền tản
 * Visual Studio 2022 (Community hoặc Enterprise).
 
 ### 2. Cấu hình Cơ sở dữ liệu (Database)
-Trong thư mục gốc của dự án (hoặc thư mục `Database`), tôi đã cung cấp file script SQL: **`BadmintonShop_DB.sql`**.
+Trong thư mục gốc của dự án (hoặc thư mục `Database`), tôi đã cung cấp file script SQL: **`BadmintonShopDB.sql`**.
 
 Vui lòng thực hiện các bước sau để khôi phục dữ liệu:
 1.  Mở **SQL Server Management Studio (SSMS)** và kết nối vào Server của bạn.
