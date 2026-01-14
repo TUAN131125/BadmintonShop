@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadmintonShop.Web", "BadmintonShop.Web\BadmintonShop.Web.csproj", "{26D8707D-7E18-492F-A31F-9693E506AAA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadmintonShop.Core", "BadmintonShop.Core\BadmintonShop.Core.csproj", "{9A67DD66-6FBD-441C-9D9B-F8E4334124D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadmintonShop.Data", "BadmintonShop.Data\BadmintonShop.Data.csproj", "{D572C1F0-717D-4BD5-9F5F-A3C72F83FEA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		BadmintonShopDB.sql = BadmintonShopDB.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
