@@ -1,4 +1,4 @@
-# 🏸 Badminton Shop - Hệ thống Kinh doanh Dụng cụ Cầu lông
+# 🏸 Badminton Shop - Hệ thống Kinh doanh vợt Cầu lông
 
 ![Badges](https://img.shields.io/badge/Framework-.NET%20Core%208.0-purple)
 ![Badges](https://img.shields.io/badge/Database-SQL%20Server-blue)
