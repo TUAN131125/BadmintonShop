@@ -51,9 +51,9 @@ Trong thư mục gốc của dự án (hoặc thư mục `Database`), tôi đã 
 
 Vui lòng thực hiện các bước sau để khôi phục dữ liệu:
 1.  Mở **SQL Server Management Studio (SSMS)** và kết nối vào Server của bạn.
-2.  Tạo một Database mới (New Database) và đặt tên chính xác là: **`BadmintonShopDB`**.
+2.  Tạo một Database mới (New Database) và đặt tên chính xác là: **`BadmintonShop`**.
 3.  Trên thanh menu, chọn **File** -> **Open** -> **File...** và chọn file `BadmintonShop_DB.sql` đã tải về.
-4.  Tại giao diện câu lệnh, hãy đảm bảo ô chọn Database (Dropdown list góc trái trên cùng) đang trỏ vào `BadmintonShopDB`.
+4.  Tại giao diện câu lệnh, hãy đảm bảo ô chọn Database (Dropdown list góc trái trên cùng) đang trỏ vào `BadmintonShop`.
 5.  Nhấn nút **Execute** (hoặc phím F5) để chạy script.
 
 > **Thông tin đăng nhập Admin mặc định:**
