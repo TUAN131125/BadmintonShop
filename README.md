@@ -56,7 +56,7 @@ Vui lòng thực hiện các bước sau để khôi phục dữ liệu:
 4.  Tại giao diện câu lệnh, hãy đảm bảo ô chọn Database (Dropdown list góc trái trên cùng) đang trỏ vào `BadmintonShopDB`.
 5.  Nhấn nút **Execute** (hoặc phím F5) để chạy script.
 
-> **Thông tin đăng nhập Admin mặc định (nếu có):**
+> **Thông tin đăng nhập Admin mặc định:**
 > * Tài khoản: `admin` (hoặc email admin)
 > * Mật khẩu: `admin` (Vui lòng kiểm tra trong bảng Users nếu mật khẩu khác).
 
